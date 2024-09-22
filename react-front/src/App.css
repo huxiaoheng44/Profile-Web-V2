@@ -1,0 +1,32 @@
+.lighted {
+    transition: box-shadow 0.5s ease-in-out;
+}
+
+.lighted-bg .lighted-bg2 {
+    background: initial;
+    transition: background 2s ease-in-out; 
+}
+
+
+
+.lighted-cover {
+    transition: opacity 2s ease-in-out;
+}
+
+.drag-me-hint {
+    position: absolute;
+    top: 370px; 
+    right: 100px;
+    color: white;
+    animation: bounce 1.5s 1s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-30px);
+    }
+}
