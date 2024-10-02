@@ -1,6 +1,5 @@
 //auth.js
 const { OAuth2Client } = require("google-auth-library");
-
 const User = require("./models/user");
 
 // Create a new OAuth2Client to verify google sign-in
@@ -33,10 +32,41 @@ function login(req, res) {
 
   verifyToken(tokenId)
     .then((payload) => {
+      // check if user exist
       User.findOne({ googleid: payload["sub"] }).then((user) => {
         if (user) {
-          res.json(user);
+          // check if user info is changed
+          let shouldUpdate = false;
+
+          if (user.name !== payload["name"]) {
+            user.name = payload["name"];
+            shouldUpdate = true;
+          }
+
+          if (user.email !== payload["email"]) {
+            user.email = payload["email"];
+            shouldUpdate = true;
+          }
+
+          if (user.locale !== payload["locale"]) {
+            user.locale = payload["locale"];
+            shouldUpdate = true;
+          }
+
+          if (user.picture !== payload["picture"]) {
+            user.picture = payload["picture"];
+            shouldUpdate = true;
+          }
+
+          if (shouldUpdate) {
+            user.save().then((updatedUser) => {
+              res.json(updatedUser);
+            });
+          } else {
+            res.json(user);
+          }
         } else {
+          // create a new user if not exist
           const newUser = new User({
             name: payload["name"],
             googleid: payload["sub"],
@@ -44,6 +74,7 @@ function login(req, res) {
             locale: payload["locale"],
             picture: payload["picture"],
           });
+
           newUser.save().then((user) => {
             res.json(user);
           });

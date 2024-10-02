@@ -1,17 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MessageCard from "../components/MessageCard";
-
-const messages = [
-  { id: 1, author: "Message 1", content: "This is the first message." , date: "2021-09-01"},
-  { id: 2, author: "Message 2", content: "This is the second message." ,date: "2021-09-02"},
-  { id: 3, author: "Message 3", content: "This is the third message." ,date: "2021-09-03"},
-];
+import { BASE_URL } from "../config/config";
+import WelcomeCard from "../components/WelcomeCard";
 
 const MessageBoard = () => {
+  const [messages, setMessages] = useState([]);
+  useEffect(() => {
+    async function fetchMessages() {
+      try {
+        const response = await fetch(`${BASE_URL}/api/messages`);
+        const data = await response.json();
+        // reverse the order of messages
+        setMessages(data.reverse());
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchMessages();
+  }, []);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 min-h-screen">
+      <WelcomeCard messages={messages} setMessages={setMessages} />
       {messages.map((message) => (
-        <MessageCard key={message.id} message={message} />
+        <MessageCard key={message._id} message={message} />
       ))}
     </div>
   );

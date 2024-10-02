@@ -1,90 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { useUser } from "../../UserContext";
-//import baseURL from "../../config";
 
-const GoogleLogoutButton = (props) => {
-  const [showModal, setShowModal] = useState(false);
-
-  const modalRef = useRef();
-
+const GoogleLogoutButton = () => {
   // Get user information from useUser
-  const {
-    userId,
-    userName,
-    userAvatar,
-    setUserId,
-    setUserAvatar,
-    setUserName,
-  } = useUser();
-
-  // Close the modal when clicking outside of it
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setShowModal(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [modalRef]);
+  const { userId, userName, setUserId, setUserAvatar, setUserName } = useUser();
 
   const handleLogout = () => {
     console.log("Logging out, current user info:", userId, userName);
 
+    // Clear session storage
     sessionStorage.removeItem("userName");
     sessionStorage.removeItem("userAvatar");
     sessionStorage.removeItem("userId");
 
+    // Reset user information in context
     setUserId(null);
     setUserName(null);
     setUserAvatar(null);
-    setShowModal(false);
-    // send post request to backend
-    // fetch(baseURL + "/api/logout", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify({ userId: userId }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log("logout success");
-    //   });
   };
 
   return (
-    <>
-      <div className="user-info flex flex-col justify-center">
-        <div>
-          <img
-            src={userAvatar}
-            alt="User Avatar"
-            // style={{ width: "40px", height: "40px", borderRadius: "50%" }}
-            className="w-7 h-7 rounded-full"
-            onClick={() => setShowModal(!showModal)}
-          />
-        </div>
-      </div>
-      {showModal && (
-        <div
-          ref={modalRef}
-          className="absolute mt-2 p-3 bg-white shadow-lg rounded-lg"
-        >
-          <p>Hello, {userName}</p>
-          <button
-            onClick={handleLogout}
-            className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-          >
-            Sign Out
-          </button>
-        </div>
-      )}
-    </>
+    <button
+      onClick={handleLogout}
+      className="px-4 py-2 bg-black text-sm text-red-100 font-bold border-red-400 border rounded-md hover:bg-green-200  hover:text-black focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-opacity-50"
+    >
+      Sign Out
+    </button>
   );
 };
 

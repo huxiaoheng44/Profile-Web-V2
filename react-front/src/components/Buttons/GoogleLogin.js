@@ -1,6 +1,6 @@
 import React from "react";
-import baseURL from "../../config";
-import { useEffect, useRef } from "react";
+import { BASE_URL } from "../../config/config";
+import { useEffect } from "react";
 import { useUser } from "../../UserContext";
 
 const GoogleLoginButton = (props) => {
@@ -11,7 +11,7 @@ const GoogleLoginButton = (props) => {
     window.handleLogin = (response) => {
       console.log(response);
       // POST to /api/login
-      fetch(baseURL + "/api/login", {
+      fetch(BASE_URL + "/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,6 +55,7 @@ const GoogleLoginButton = (props) => {
   return (
     <>
       <div
+        className=" z-10"
         id="g_id_onload"
         data-client_id="428394025772-7dku9vrms7l56cpcf28l9a2ara40098r.apps.googleusercontent.com"
         data-context="use"
