@@ -58,3 +58,53 @@
 .animate-faster-bounce {
   animation: faster-bounce 0.5s infinite;
 }
+
+.ant-timeline-item-tail {
+  background-color: #52525b;
+}
+
+.ant-timeline-item-head {
+  background-color: transparent !important;
+}
+
+.ant-timeline-item-label {
+  padding-right: 15px;
+}
+
+.ant-timeline-item-content {
+  width: 70% !important;
+  max-width: none;
+}
+
+.ant-timeline-item-content {
+  padding-left: 20px;
+}
+
+/* custom antd tabs */
+.ant-tabs-tab {
+  font-weight: 500 !important;
+  color: gray !important;
+  transition: color 0.3s !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active {
+  font-weight: bold !important;
+  color: white !important;
+  background-color: transparent !important;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: white !important;
+}
+
+.ant-tabs-ink-bar {
+  background-color: white !important;
+}
+
+.ant-tabs-nav::before {
+  border-bottom: 2px solid #52525b !important;
+}
+
+div.react-pdf__Page__textContent {
+  display: none !important;
+}

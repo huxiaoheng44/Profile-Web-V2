@@ -5,8 +5,14 @@ import ArrowDown from "../animation/arrowDown.json";
 import walkAnimation from "../animation/astronaut.json";
 import { createAnimationFunction } from "../utils/animation";
 import HomePageTitle from "../components/HomePageTitle";
+import { useNavigate } from "react-router-dom";
+import { Carousel } from "antd";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/swiper-bundle.css";
+import { Pagination, Autoplay } from "swiper/modules";
 
 const HomePage = () => {
+  const navigate = useNavigate();
   const roleList = [
     "FRONTEND",
     "BACKEND",
@@ -22,6 +28,25 @@ const HomePage = () => {
   const lottieRef = useRef();
 
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const contentStyle = {
+    height: "160px",
+    color: "#fff",
+    lineHeight: "160px",
+    textAlign: "center",
+    background: "#364d79",
+  };
+
+  const coverBaseURL = `${process.env.PUBLIC_URL}/resources/cover/`;
+
+  const coverList = [
+    "droneSimulator.png",
+    "FASTAI.png",
+    "stereo.png",
+    "vehicleIdentification.png",
+  ];
+
+  const IntroductionText =
+    "Hi, I'm Xiaoheng Hu, a passionate developer constantly exploring the frontiers of technology. From Web Development and LLM to DevOps, I thrive on solving complex problems with innovative solutions. Whether building open dialogue platforms or developing real-time data management tools, I love turning ideas into reality through code. I’m driven by the excitement of learning and creating, and I'm always eager to take on new challenges and push the boundaries of what's possible.";
 
   // Function to scroll back to top
   const scrollToTop = () => {
@@ -59,8 +84,6 @@ const HomePage = () => {
     const playgroundBottom =
       playground.getBoundingClientRect().bottom + window.scrollY;
 
-    // 300 comes from the number of carousel items
-    console.log("playgroundBottom", playgroundBottom);
     const scrollFunction = createAnimationFunction(
       playgroundTop + 700,
       playgroundBottom,
@@ -125,9 +148,65 @@ const HomePage = () => {
           loop={true}
         />
       </div>
-      <HomePageTitle title="# // ABOUT ME " />
-      <HomePageTitle title="# // PROJECTS " />
-      <HomePageTitle title="# // MY LIFE JOURNEY " />
+      <HomePageTitle title="// ABOUT ME " />
+      <div className="w-full flex justify-center items-center bg-black text-lg leading-relaxed px-24 py-10">
+        {IntroductionText}
+      </div>
+      <div className="w-full text-end bg-black text-2xl font-bold px-10 underline">
+        <button
+          className="underline"
+          onClick={() => {
+            navigate("/about");
+            window.scrollTo(0, 0);
+          }}
+        >
+          More about me
+        </button>
+      </div>
+      <HomePageTitle title="// PROJECTS " />
+      {/* <div className="w-full flex justify-center items-center bg-black text-lg h-60  ">
+        <Carousel autoplay>
+          {coverList.map((cover, index) => (
+            <div className="text-white w-full h-30" key={index}>
+              {index}
+              <img
+                src={`${process.env.PUBLIC_URL}/resources/cover/stereo.jpg`}
+                alt={`Cover ${index + 1}`}
+                style={contentStyle}
+              />
+            </div>
+          ))}
+        </Carousel>
+      </div> */}
+
+      <div className="w-full flex justify-center items-center bg-black text-lg leading-relaxed px-24 py-10">
+        <Swiper
+          className="w-[80%] h-96 flex justify-center items-center"
+          spaceBetween={50}
+          slidesPerView={1}
+          loop={true}
+          pagination={{
+            clickable: true,
+          }}
+          autoplay={{ delay: 3000 }}
+          modules={[Pagination, Autoplay]}
+        >
+          {coverList.map((cover, index) => (
+            <SwiperSlide
+              key={index}
+              className="hover:cursor-pointer"
+              onClick={() => navigate(`/projects?tab=${index + 1}`)}
+            >
+              <img
+                src={`${coverBaseURL}${cover}`}
+                alt={`Cover ${index + 1}`}
+                className="w-full h-96 object-contain lg:object-cover"
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+      <HomePageTitle title="// MY LIFE JOURNEY " />
       <div
         className="animation-playground bg-black"
         style={{ height: "6500px" }}

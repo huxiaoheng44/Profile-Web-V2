@@ -7,6 +7,7 @@ import HomePage from "./pages/Home";
 import AboutMePage from "./pages/AboutMe";
 import MessageBoardPage from "./pages/MessageBoard";
 import { UserProvider } from "./UserContext";
+import ProjectPage from "./pages/ProjectPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route path="/home" element={<HomePage />} />
             <Route path="/about" element={<AboutMePage />} />
+            <Route path="/projects" element={<ProjectPage />} />
             <Route path="/contact" element={<MessageBoardPage />} />
             <Route path="/" element={<HomePage />} />
           </Routes>
