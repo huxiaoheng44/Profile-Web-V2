@@ -55,7 +55,7 @@ const WelcomeCard = ({ messages, setMessages }) => {
   };
 
   return (
-    <div className="text-white p-4 rounded-md shadow-lg border-primary flex flex-col justify-between h-full relative">
+    <div className="text-white p-4 rounded-md shadow-lg border-primary flex flex-col justify-between h-[25rem] relative">
       {userId ? (
         <>
           <div className="flex flex-row justify-between">

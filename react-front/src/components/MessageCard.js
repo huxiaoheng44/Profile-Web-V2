@@ -82,7 +82,7 @@ const MessageCard = ({ message }) => {
 
   return (
     <div>
-      <div className="text-white p-4 rounded-md shadow-lg border-primary">
+      <div className="text-white p-4 rounded-md shadow-lg border-primary h-[25rem]">
         <div className="message-author text-xl font-bold mb-2">
           {message.author}
         </div>

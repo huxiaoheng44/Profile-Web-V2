@@ -225,7 +225,7 @@ const AboutMePage = () => {
         </div>
         <div
           className="lighted-cover absolute inset-0 bg-black opacity-80 z-10"
-          style={{ height: "300vh" }}
+          style={{ height: "370vh" }}
         ></div>
         <div className=" w-full flex justify-center items-center">
           <div className="flex justify-center items-center">
