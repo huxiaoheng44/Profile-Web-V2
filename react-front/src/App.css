@@ -108,3 +108,8 @@
 div.react-pdf__Page__textContent {
   display: none !important;
 }
+
+.ant-tabs-content-holder {
+  background-color: black !important;
+  min-height: 80vh !important;
+}

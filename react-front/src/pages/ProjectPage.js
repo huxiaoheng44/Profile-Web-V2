@@ -47,7 +47,7 @@ const ProjectPage = () => {
       <Tabs
         defaultActiveKey="1"
         centered
-        className="test-white bg-inherit pb-10"
+        className="test-white bg-inherit pb-10 "
       >
         {projects.map((project, index) => (
           <TabPane
