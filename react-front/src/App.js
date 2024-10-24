@@ -8,6 +8,7 @@ import AboutMePage from "./pages/AboutMe";
 import MessageBoardPage from "./pages/MessageBoard";
 import { UserProvider } from "./UserContext";
 import ProjectPage from "./pages/ProjectPage";
+import NotFoundPage from "./pages/NotFound";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/projects" element={<ProjectPage />} />
             <Route path="/contact" element={<MessageBoardPage />} />
             <Route path="/" element={<HomePage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
       </div>
