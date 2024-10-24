@@ -10,10 +10,10 @@ const WelcomeCard = ({ messages, setMessages }) => {
   const [messageContent, setMessageContent] = useState(""); // Holds message content
 
   // Monitor user state
-  useEffect(() => {
-    console.log("userId:", userId);
-    console.log("userName:", userName);
-  }, [userId, userName, shouldBlink]);
+  // useEffect(() => {
+  //   console.log("userId:", userId);
+  //   console.log("userName:", userName);
+  // }, [userId, userName, shouldBlink]);
 
   const handleAnonymousChange = (e) => {
     setIsAnonymous(e.target.checked);
