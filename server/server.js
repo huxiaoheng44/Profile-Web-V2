@@ -25,14 +25,16 @@ const app = express();
 
 app.use(express.json());
 app.use(
-  cors(
-    {
-      origin: "http://34.17.31.245",
-    },
-    {
-      origin: "http://localhost:3000",
-    }
-  )
+  cors({
+    origin: [
+      "http://34.17.31.245",
+      "http://localhost:3000",
+      "https://huxiaoheng.com",
+      "http://huxiaoheng.com",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
 );
 app.use("/api", api);
 
