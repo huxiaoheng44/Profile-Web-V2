@@ -7,13 +7,8 @@ import { BASE_URL } from "../config/config";
 const WelcomeCard = ({ messages, setMessages }) => {
   const { userId, userName, shouldBlink } = useUser();
   const [isAnonymous, setIsAnonymous] = useState(false);
-  const [messageContent, setMessageContent] = useState(""); // Holds message content
-
-  // Monitor user state
-  // useEffect(() => {
-  //   console.log("userId:", userId);
-  //   console.log("userName:", userName);
-  // }, [userId, userName, shouldBlink]);
+  const [messageContent, setMessageContent] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleAnonymousChange = (e) => {
     setIsAnonymous(e.target.checked);
@@ -21,10 +16,11 @@ const WelcomeCard = ({ messages, setMessages }) => {
 
   // Handle Post button click
   const handlePostMessage = async () => {
+    setErrorMessage("");
     const author = isAnonymous ? "Anonymous" : userName;
 
     const newMessage = {
-      messageId: messages.length, // or generate a unique ID
+      messageId: messages.length,
       author,
       content: messageContent,
       date: new Date().toISOString(),
@@ -42,16 +38,33 @@ const WelcomeCard = ({ messages, setMessages }) => {
       if (response.ok) {
         const result = await response.json();
         console.log("Message posted:", result);
-        // Clear the textarea after posting the message
         setMessageContent("");
-        // add the new message to the messages list
         setMessages((messages) => [result, ...messages]);
       } else {
-        console.error("Failed to post message:", response.statusText);
+        throw new Error("Server response error");
       }
     } catch (error) {
       console.error("Error posting message:", error);
+      const funnyMessages = [
+        "Oops... Looks like our server is on vacation 🏖️",
+        "Sorry, the developer had to temporarily shut down the backend due to expensive server costs 💸",
+        "Developer says: The server bill this month is too scary, let's try again next month 🙈",
+      ];
+      const randomMessage =
+        funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+      setErrorMessage(randomMessage);
     }
+  };
+
+  const handleLoginError = () => {
+    const funnyMessages = [
+      "Oops... Looks like our server is on vacation 🏖️",
+      "Sorry, the developer had to temporarily shut down the backend due to expensive server costs 💸",
+      "Developer says: The server bill this month is too scary, let's try again next month 🙈",
+    ];
+    const randomMessage =
+      funnyMessages[Math.floor(Math.random() * funnyMessages.length)];
+    setErrorMessage(randomMessage);
   };
 
   return (
@@ -59,7 +72,6 @@ const WelcomeCard = ({ messages, setMessages }) => {
       {userId ? (
         <>
           <div className="flex flex-row justify-between">
-            {/* Username with optional strikethrough */}
             <div className="text-xl font-bold">
               <span className={`${isAnonymous ? "line-through" : ""}`}>
                 {userName}
@@ -67,13 +79,11 @@ const WelcomeCard = ({ messages, setMessages }) => {
               <span>{isAnonymous && " (Nobody Knows)"}</span>
             </div>
 
-            {/* Logout button in top right corner */}
             <div className="absolute right-2 top-2">
               <GoogleLogoutButton />
             </div>
           </div>
 
-          {/* TextArea for message input */}
           <textarea
             className="w-full h-3/5 bg-black border-2 border-zinc-600 text-white p-2 rounded-md mt-8"
             placeholder="Write your message here..."
@@ -81,7 +91,12 @@ const WelcomeCard = ({ messages, setMessages }) => {
             onChange={(e) => setMessageContent(e.target.value)}
           ></textarea>
 
-          {/* Footer section with anonymous checkbox and Post button */}
+          {errorMessage && (
+            <div className="text-yellow-400 text-sm mt-2 text-center animate-once">
+              {errorMessage}
+            </div>
+          )}
+
           <div className="flex justify-between items-center mt-auto">
             <div className="flex items-center">
               <input
@@ -105,6 +120,13 @@ const WelcomeCard = ({ messages, setMessages }) => {
         <div className="flex flex-col items-center justify-center h-full">
           <div className="text-xl font-bold mb-2">Welcome to Message Board</div>
           <p className="mb-4">Please log in with Google to leave a message.</p>
+
+          {errorMessage && (
+            <div className="text-yellow-400 text-sm mb-4 text-center animate-once">
+              {errorMessage}
+            </div>
+          )}
+
           <div
             style={{
               position: "relative",
@@ -113,8 +135,7 @@ const WelcomeCard = ({ messages, setMessages }) => {
             }}
             className={shouldBlink ? "animate-faster-bounce" : ""}
           >
-            <GoogleLoginButton />
-            {/* cover GoogleLoginButton */}
+            <GoogleLoginButton onError={handleLoginError} />
             <div
               style={{
                 position: "absolute",
@@ -122,7 +143,7 @@ const WelcomeCard = ({ messages, setMessages }) => {
                 left: 0,
                 width: "100%",
                 height: "100%",
-                backgroundColor: "rgba(0, 0, 0, 0)", // transparent
+                backgroundColor: "rgba(0, 0, 0, 0)",
                 pointerEvents: "none",
               }}
             />

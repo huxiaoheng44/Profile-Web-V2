@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import MessageCard from "../components/MessageCard";
 import { BASE_URL } from "../config/config";
 import WelcomeCard from "../components/WelcomeCard";
+import PersonalSocialMediaCard from "../components/PersonalSocialMediaCard";
 
 const MessageBoard = () => {
   const [messages, setMessages] = useState([]);
@@ -21,6 +22,7 @@ const MessageBoard = () => {
   }, []);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4 min-h-screen">
+      <PersonalSocialMediaCard />
       <WelcomeCard messages={messages} setMessages={setMessages} />
       {messages.map((message) => (
         <MessageCard key={message._id} message={message} />

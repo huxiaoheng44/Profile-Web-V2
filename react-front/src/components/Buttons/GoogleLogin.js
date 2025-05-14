@@ -3,40 +3,46 @@ import { BASE_URL } from "../../config/config";
 import { useEffect } from "react";
 import { useUser } from "../../UserContext";
 
-const GoogleLoginButton = (props) => {
-  //Get the user state from context
+const GoogleLoginButton = ({ onError }) => {
   const { setUserId, setUserAvatar, setUserName } = useUser();
 
   useEffect(() => {
-    window.handleLogin = (response) => {
-      console.log(response);
-      // POST to /api/login
-      fetch(BASE_URL + "/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ tokenId: response.credential }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("userInfo:", data);
-          setUserName(data.name);
-          setUserAvatar(data.picture);
-          setUserId(data.googleid);
-
-          // use session to store user info
-          sessionStorage.setItem("userName", data.name);
-          sessionStorage.setItem("userAvatar", data.picture);
-          sessionStorage.setItem("userId", data.googleid);
+    window.handleLogin = async (response) => {
+      try {
+        console.log(response);
+        const res = await fetch(BASE_URL + "/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ tokenId: response.credential }),
         });
+
+        if (!res.ok) {
+          throw new Error("Login failed");
+        }
+
+        const data = await res.json();
+        console.log("userInfo:", data);
+        setUserName(data.name);
+        setUserAvatar(data.picture);
+        setUserId(data.googleid);
+
+        sessionStorage.setItem("userName", data.name);
+        sessionStorage.setItem("userAvatar", data.picture);
+        sessionStorage.setItem("userId", data.googleid);
+      } catch (error) {
+        console.error("Login error:", error);
+        if (onError) {
+          onError(error);
+        }
+      }
     };
 
     return () => {
       window.handleLogin = undefined;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [setUserId, setUserAvatar, setUserName, onError]);
 
   // make sure the google login button is always showed
   useEffect(() => {

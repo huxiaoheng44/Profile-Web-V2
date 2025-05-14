@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -14,6 +13,7 @@ module.exports = {
       },
       animation: {
         bounceY: "bounceY 0.2s ease-out ",
+        once: "bounce 1s ease-in-out",
       },
     },
   },
