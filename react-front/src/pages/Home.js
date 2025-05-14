@@ -39,10 +39,30 @@ const HomePage = () => {
   const coverBaseURL = `${process.env.PUBLIC_URL}/resources/cover/`;
 
   const coverList = [
-    "droneSimulator.png",
-    "FASTAI.png",
-    "stereo.png",
-    "vehicleIdentification.png",
+    {
+      filename: "drone.png",
+      title: "Drone Simulation",
+    },
+    {
+      filename: "fastai.png",
+      title: "Fast AI Movie",
+    },
+    {
+      filename: "stereo.png",
+      title: "Stereo Reconstruction",
+    },
+    {
+      filename: "vehicleIdentification.png",
+      title: "Vehicle Identification Task Based on Vehicle Noise",
+    },
+    {
+      filename: "innocoso.png",
+      title: "Innocoso Web Platform",
+    },
+    {
+      filename: "dilab.png",
+      title: "TUM DI-Lab Multi-Agent System",
+    },
   ];
 
   const IntroductionText =
@@ -194,14 +214,22 @@ const HomePage = () => {
           {coverList.map((cover, index) => (
             <SwiperSlide
               key={index}
-              className="hover:cursor-pointer"
+              className="hover:cursor-pointer relative"
               onClick={() => navigate(`/projects?tab=${index + 1}`)}
             >
-              <img
-                src={`${coverBaseURL}${cover}`}
-                alt={`Cover ${index + 1}`}
-                className="w-full h-96 object-contain lg:object-cover"
-              />
+              <div className="relative w-full h-96">
+                <div className="absolute inset-0 bg-gradient-to-r from-white via-black/60 to-black z-10" />
+                <img
+                  src={`${coverBaseURL}${cover.filename}`}
+                  alt={cover.title}
+                  className="w-full h-full object-contain lg:object-cover"
+                />
+                <div className="absolute right-0 top-1/2 transform -translate-y-1/2 text-white z-20 w-1/3 flex justify-center pr-10">
+                  <h2 className="text-5xl font-bold break-words leading-tight text-center">
+                    {cover.title}
+                  </h2>
+                </div>
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -213,7 +241,11 @@ const HomePage = () => {
       >
         {/* Lottie */}
         <div className="lottie-container sticky top-[400px] w-full flex justify-center h-80 z-20">
-          <Lottie animationData={walkAnimation} loop={true} />
+          <Lottie
+            className="w-full md:w-auto h-full"
+            animationData={walkAnimation}
+            loop={true}
+          />
         </div>
 
         <div
@@ -245,7 +277,7 @@ const HomePage = () => {
                   src={`${process.env.PUBLIC_URL}/resources/education/${
                     i + 1
                   }.png`}
-                  className="w-full h-full"
+                  className="w-full h-full object-contain md:object-cover"
                   alt={`Education ${i + 1}`}
                 />
               </div>
@@ -258,7 +290,7 @@ const HomePage = () => {
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className={`fixed bottom-10 right-10 bg-white text-black rounded-full text-4xl p-3 shadow-lg transform transition-all duration-1000 ${
+          className={`fixed bottom-10 right-10 bg-white text-black rounded-full text-3xl p-3 shadow-lg transform transition-all duration-1000 ${
             showBackToTop ? "opacity-100 scale-100" : "opacity-0 scale-0"
           }`}
           style={{ width: "60px", height: "60px" }}

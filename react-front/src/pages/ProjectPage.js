@@ -40,6 +40,16 @@ const ProjectPage = () => {
       description: "This tab showcases the Muller BBM project.",
       pdf: `${pdfBaseURL}VehicleIdentification.pdf`,
     },
+    {
+      title: "Innocoso Management System",
+      description: "This tab displays the Innocoso Management System.",
+      video: `${videoBaseURL}Innocoso.mp4`,
+    },
+    {
+      title: "TUM DI-Lab & Reply",
+      description: "This tab displays the TUM DI-Lab & Reply project.",
+      video: `${videoBaseURL}dilab.mp4`,
+    },
   ];
 
   return (
