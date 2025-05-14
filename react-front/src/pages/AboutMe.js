@@ -27,65 +27,6 @@ const AboutMePage = () => {
 
   const timelineData = [
     {
-      title: "Wuhan University of Technology",
-      description: {
-        position: "Software Engineering Bachelor ",
-        details: [
-          "Grade: 4.103 / 5.0",
-          "Relevant Courses: Data Structures and Algorithms, Computer Architecture, Operating Systems, Database Systems, Network Principles, Software Engineering, Discrete Mathematics",
-        ],
-      },
-      time: "September 2017 - July 2021",
-      icon: (
-        <FaBook
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "Huawei - Software Engineer",
-      description: {
-        position: "Software Engineer",
-        details: [
-          "Developed advanced-specific optimization strategies for the optimization level in the compiler.",
-          "Monitored CI/CD pipelines and developed scripts to automate and enhance workflow efficiency.",
-        ],
-      },
-      time: "September 2021 - July 2022",
-      icon: (
-        <FaBriefcase
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "Technical University of Munich",
-      description: {
-        position: "Informatics Master",
-        details: [
-          "Relevant Courses: Computer Vision II: Multiple View Geometry, 3D Scanning & Motion Capture, Cloud Information Systems, Natural Language Processing, Advanced Computer Networking",
-        ],
-      },
-      time: "October 2022 - present",
-      icon: (
-        <FaBook
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
       title: "Infineon Technologies AG",
       description: {
         position: "Platform Engineer(Working Student)",
@@ -128,54 +69,15 @@ const AboutMePage = () => {
       ),
     },
     {
-      title: "Personal Website Development (huxiaoheng.com)",
+      title: "Müller-BBM Vehicle Identification Task Based on Vehicle Noise",
       description: {
-        position: "Personal Website Development",
+        position: "Vehicle Identification Task",
         details: [
-          "Developed a platform for open dialogue, complete with a message card and comment features.",
-          "Tech Stack: React (Front-end), Express.js (Back-end), MongoDB (Database), Docker (Deployment), Nginx (Reverse Proxy), Google Cloud (Server Hosting)",
+          "Develop a classification method for passenger cars and heavy vehicles based on features extracted from audio recordings and additional sensor data.",
+          "Developed solutions based on traditional machine learning and neural networks-based algorithms, achieving a maximum accuracy of 87%.",
         ],
       },
-      time: "August 2023 - present",
-      icon: (
-        <FaLightbulb
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "Python Artifact Logger&Viewer Module",
-      description: {
-        position: "Python Artifact Logger&Viewer Module",
-        details: [
-          "Developed a Flask-based backend server, enabling dynamic data presentation from and supporting data querying and visualization for artifact comparison.",
-        ],
-      },
-      time: "October 2023 - February 2024",
-      icon: (
-        <FaLightbulb
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "Drone Simulator Project",
-      description: {
-        position: "Drone Simulator Project",
-        details: [
-          "Constructed a comprehensive drone control system integrated with PX4 autopilot with a companion application based on seL4 microkernel OS.",
-          "Developed a C++ proxy for sensor data transmission to the companion computer and converted raw sensor data into structured data types for precise control and monitoring.",
-        ],
-      },
-      time: "February 2023 - August 2023",
+      time: "January 2024 - January 2024",
       icon: (
         <FaLightbulb
           style={{
@@ -208,17 +110,115 @@ const AboutMePage = () => {
       ),
     },
     {
-      title: "Müller-BBM Vehicle Identification Task Based on Vehicle Noise",
+      title: "Python Artifact Logger&Viewer Module",
       description: {
-        position: "Vehicle Identification Task",
+        position: "Python Artifact Logger&Viewer Module",
         details: [
-          "Develop a classification method for passenger cars and heavy vehicles based on features extracted from audio recordings and additional sensor data.",
-          "Developed solutions based on traditional machine learning and neural networks-based algorithms, achieving a maximum accuracy of 87%.",
+          "Developed a Flask-based backend server, enabling dynamic data presentation from and supporting data querying and visualization for artifact comparison.",
         ],
       },
-      time: "January 2024",
+      time: "October 2023 - February 2024",
       icon: (
         <FaLightbulb
+          style={{
+            color: "white",
+            backgroundColor: "transparent",
+            fontSize: "1.5rem",
+          }}
+        />
+      ),
+    },
+    {
+      title: "Personal Website Development (huxiaoheng.com)",
+      description: {
+        position: "Personal Website Development",
+        details: [
+          "Developed a platform for open dialogue, complete with a message card and comment features.",
+          "Tech Stack: React (Front-end), Express.js (Back-end), MongoDB (Database), Docker (Deployment), Nginx (Reverse Proxy), Google Cloud (Server Hosting)",
+        ],
+      },
+      time: "August 2023 - present",
+      icon: (
+        <FaLightbulb
+          style={{
+            color: "white",
+            backgroundColor: "transparent",
+            fontSize: "1.5rem",
+          }}
+        />
+      ),
+    },
+    {
+      title: "Drone Simulator Project",
+      description: {
+        position: "Drone Simulator Project",
+        details: [
+          "Constructed a comprehensive drone control system integrated with PX4 autopilot with a companion application based on seL4 microkernel OS.",
+          "Developed a C++ proxy for sensor data transmission to the companion computer and converted raw sensor data into structured data types for precise control and monitoring.",
+        ],
+      },
+      time: "February 2023 - August 2023",
+      icon: (
+        <FaLightbulb
+          style={{
+            color: "white",
+            backgroundColor: "transparent",
+            fontSize: "1.5rem",
+          }}
+        />
+      ),
+    },
+    {
+      title: "Technical University of Munich",
+      description: {
+        position: "Informatics Master",
+        details: [
+          "Relevant Courses: Computer Vision II: Multiple View Geometry, 3D Scanning & Motion Capture, Cloud Information Systems, Natural Language Processing, Advanced Computer Networking",
+        ],
+      },
+      time: "October 2022 - present",
+      icon: (
+        <FaBook
+          style={{
+            color: "white",
+            backgroundColor: "transparent",
+            fontSize: "1.5rem",
+          }}
+        />
+      ),
+    },
+    {
+      title: "Huawei - Software Engineer",
+      description: {
+        position: "Software Engineer",
+        details: [
+          "Developed advanced-specific optimization strategies for the optimization level in the compiler.",
+          "Monitored CI/CD pipelines and developed scripts to automate and enhance workflow efficiency.",
+        ],
+      },
+      time: "September 2021 - July 2022",
+      icon: (
+        <FaBriefcase
+          style={{
+            color: "white",
+            backgroundColor: "transparent",
+            fontSize: "1.5rem",
+          }}
+        />
+      ),
+    },
+    {
+      title: "Wuhan University of Technology",
+      description: {
+        position: "Software Engineering Bachelor ",
+        details: [
+          "Grade: 4.103 / 5.0",
+          "Relevant Courses: Data Structures and Algorithms, Computer Architecture, Operating Systems, Database Systems, Network Principles, Software Engineering, Discrete Mathematics",
+        ],
+      },
+      time: "September 2017 - July 2021",
+      icon: (
+        <FaBook
           style={{
             color: "white",
             backgroundColor: "transparent",
@@ -253,21 +253,21 @@ const AboutMePage = () => {
   };
 
   return (
-    <div className="text-white">
+    <div className="text-white bg-black min-h-[430vh]">
+      {" "}
       <div
         className="absolute left-0 top-20 w-full z-30"
         style={{ height: "calc(100vh - 5rem)" }}
       >
         <LightUp />
       </div>
-
       <div className="lighted-bg section h-screen flex flex-col justify-start items-center bg-black relative">
         <div className="w-full text-5xl text-center font-bold p-20">
           MY PROFILE
         </div>
         <div
-          className="lighted-cover absolute inset-0 bg-black opacity-80 z-10"
-          style={{ height: "370vh" }}
+          className="lighted-cover absolute inset-0 bg-black opacity-80 z-20"
+          style={{ height: "430vh" }}
         ></div>
         <div className=" w-full flex justify-center items-center">
           <div className="flex justify-center items-center">
@@ -295,7 +295,6 @@ const AboutMePage = () => {
           </div>
         </div>
       </div>
-
       <div className="lighted-bg2 h-screen section flex flex-col justify-start items-center bg-black z-30">
         <div className="w-full text-5xl text-center font-bold pb-20">
           MY EXPERIENCE
@@ -328,40 +327,45 @@ const AboutMePage = () => {
         </div>
       </div>
       <div className="w-full h-96 my-20"></div>
-
-      <div className="lighted-bg2 h-screen overflow-hidden section flex flex-col justify-center items-center bg-black z-30">
-        <div className="w-full relative text-5xl text-center font-bold top-32">
+      <div className="lighted-bg2 min-h-screen section flex flex-col justify-start items-center bg-black z-10 relative overflow-hidden pb-48">
+        <div className="w-full text-5xl text-center font-bold mb-20 pt-20">
           MY HOBBIES
         </div>
-        <div className="w-full relative top-64 flex justify-end">
+
+        <div className="absolute top-[28%] right-48">
           <button
-            className="text-5xl font-bold mr-48"
+            className="text-5xl font-bold"
             onClick={handleBasketballActivation}
           >
             Basketball
           </button>
         </div>
-        <div className="w-full relative top-80">
+
+        <div className="absolute top-[42%] left-24">
           <button
-            className="text-5xl font-bold ml-24"
+            className="text-5xl font-bold"
             onClick={handlePingPangActivation}
           >
             Ping Pong
           </button>
         </div>
-        <Hobby
-          setAddBasketBallToWorld={setAddBasketBallToWorld}
-          setActivatePingPang={setActivatePingPang}
-          setActivateRacket={setActivateRacket}
-        />
-        <div className="w-full relative bottom-52 flex justify-end">
+
+        <div className="w-full h-screen flex items-center justify-center">
+          <Hobby
+            setAddBasketBallToWorld={setAddBasketBallToWorld}
+            setActivatePingPang={setActivatePingPang}
+            setActivateRacket={setActivateRacket}
+          />
+        </div>
+
+        <div className="absolute bottom-16 right-52 flex items-center bg-black">
           <img
             className="w-32 h-24 object-fit mx-10"
             alt="game"
             src={`${process.env.PUBLIC_URL}/resources/hobby/game.png`}
-          ></img>
+          />
           <button
-            className="text-5xl font-bold mr-52"
+            className="text-5xl font-bold"
             onClick={handleVideoGamesActivation}
           >
             Video Games

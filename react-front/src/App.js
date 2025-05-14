@@ -2,7 +2,7 @@ import "./App.css";
 import BlendeCursor from "./components/BlendeCursor";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
-import { Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Home";
 import AboutMePage from "./pages/AboutMe";
 import MessageBoardPage from "./pages/MessageBoard";
@@ -13,8 +13,8 @@ import NotFoundPage from "./pages/NotFound";
 function App() {
   return (
     <UserProvider>
-      <div className="App bg-black w-full flex flex-col box-border">
-        <div className="flex-grow box-border">
+      <div className="App bg-black w-full flex flex-col box-border min-h-screen">
+        <div className="flex-grow box-border bg-black">
           <Navigation />
           <BlendeCursor />
           <Routes>

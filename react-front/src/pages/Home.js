@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { Carousel } from "antd";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
-import { Pagination, Autoplay } from "swiper/modules";
+import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -136,7 +136,7 @@ const HomePage = () => {
     <div className="text-white h-screen">
       <div className="w-full h-full flex justify-center items-center">
         <div className="w-full h-60 mb-24">
-          <div className="font-bold text-7xl text-center ">
+          <div className="font-bold text-7xl text-center mb-6">
             HI, HERE IS XIAOHENG HU
           </div>
           <div className="flex items-center justify-center">
@@ -201,7 +201,7 @@ const HomePage = () => {
 
       <div className="w-full flex justify-center items-center bg-black text-lg leading-relaxed px-24 py-10">
         <Swiper
-          className="w-[80%] h-96 flex justify-center items-center"
+          className="w-[80%] h-128 flex justify-center items-center"
           spaceBetween={50}
           slidesPerView={1}
           loop={true}
@@ -209,7 +209,8 @@ const HomePage = () => {
             clickable: true,
           }}
           autoplay={{ delay: 3000 }}
-          modules={[Pagination, Autoplay]}
+          navigation={true}
+          modules={[Pagination, Autoplay, Navigation]}
         >
           {coverList.map((cover, index) => (
             <SwiperSlide
@@ -217,7 +218,7 @@ const HomePage = () => {
               className="hover:cursor-pointer relative"
               onClick={() => navigate(`/projects?tab=${index + 1}`)}
             >
-              <div className="relative w-full h-96">
+              <div className="relative w-full h-128">
                 <div className="absolute inset-0 bg-gradient-to-r from-white via-black/60 to-black z-10" />
                 <img
                   src={`${coverBaseURL}${cover.filename}`}
