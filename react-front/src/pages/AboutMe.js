@@ -86,6 +86,48 @@ const AboutMePage = () => {
       ),
     },
     {
+      title: "Infineon Technologies AG",
+      description: {
+        position: "Platform Engineer(Working Student)",
+        details: [
+          "Develop and maintain the internal developer portal to streamline engineering workflows.",
+          "Assisted in enhancing and maintaining project CI/CD pipelines.",
+          "Supported the migration of repository workflows, standardized internal development practices.",
+        ],
+      },
+      time: "December 2024 - June 2025",
+      icon: (
+        <FaBriefcase
+          style={{
+            color: "white",
+            backgroundColor: "transparent",
+            fontSize: "1.5rem",
+          }}
+        />
+      ),
+    },
+    {
+      title: "Innocoso Order Management System",
+      description: {
+        position: "Full-stack Developer(Working Student)",
+        details: [
+          "Developed and deployed a full-featured order management platform with functionalities including advance search, filtering, and PDF export.",
+          "Implemented dynamic data visualization dashboards using Ant Design's specialized visualization library, enabling multi-dimensional analysis and comparison of order information.",
+          "Designed intuitive user interfaces for monitoring key order metrics, supporting business decision-making through clear visual summaries.",
+        ],
+      },
+      time: "July 2024 - December 2024",
+      icon: (
+        <FaBriefcase
+          style={{
+            color: "white",
+            backgroundColor: "transparent",
+            fontSize: "1.5rem",
+          }}
+        />
+      ),
+    },
+    {
       title: "Personal Website Development (huxiaoheng.com)",
       description: {
         position: "Personal Website Development",
