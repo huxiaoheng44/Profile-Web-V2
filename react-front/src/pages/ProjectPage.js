@@ -43,7 +43,7 @@ const ProjectPage = () => {
     {
       title: "Innocoso Management System",
       description: "This tab displays the Innocoso Management System.",
-      video: `${videoBaseURL}Innocoso.mp4`,
+      video: `${videoBaseURL}innocoso.mp4`,
     },
     {
       title: "TUM DI-Lab & Reply",
