@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import GoogleLogoutButton from "./Buttons/GoogleLogout";
 import GoogleLoginButton from "./Buttons/GoogleLogin";
 import { useUser } from "../UserContext";

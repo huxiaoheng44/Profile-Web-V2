@@ -8,7 +8,8 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 //   "pdfjs-dist/build/pdf.worker.min.mjs",
 //   import.meta.url
 // ).toString();
-pdfjs.GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.mjs`;
+pdfjs.GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.min.js`;
+
 
 const PDFReader = ({ pdfUrl }) => {
   const [numPages, setNumPages] = useState(null);

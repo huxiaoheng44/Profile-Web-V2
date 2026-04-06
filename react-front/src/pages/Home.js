@@ -6,7 +6,6 @@ import walkAnimation from "../animation/astronaut.json";
 import { createAnimationFunction } from "../utils/animation";
 import HomePageTitle from "../components/HomePageTitle";
 import { useNavigate } from "react-router-dom";
-import { Carousel } from "antd";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
@@ -28,13 +27,6 @@ const HomePage = () => {
   const lottieRef = useRef();
 
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const contentStyle = {
-    height: "160px",
-    color: "#fff",
-    lineHeight: "160px",
-    textAlign: "center",
-    background: "#364d79",
-  };
 
   const coverBaseURL = `${process.env.PUBLIC_URL}/resources/cover/`;
 
@@ -94,10 +86,12 @@ const HomePage = () => {
   }, []);
 
   useEffect(() => {
-    const carouselContainer = document.getElementById("carousel-container");
     const carousel = document.querySelector(".carousel");
-    const carouselItems = document.querySelectorAll(".carousel-item");
     const playground = document.querySelector(".animation-playground");
+
+    if (!carousel || !playground) {
+      return undefined;
+    }
 
     const playgroundTop =
       playground.getBoundingClientRect().top + window.scrollY;
@@ -110,12 +104,18 @@ const HomePage = () => {
       0,
       700
     );
-    window.addEventListener("scroll", () => {
-      // use scrollFunction to get the translateX value of the carousel
+
+    const handleCarouselScroll = () => {
       carousel.style.transform = `translateX(-${scrollFunction(
         window.scrollY
       )}00%)`;
-    });
+    };
+
+    window.addEventListener("scroll", handleCarouselScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleCarouselScroll);
+    };
   }, []);
 
   useEffect(() => {

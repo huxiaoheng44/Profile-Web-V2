@@ -1,8 +1,7 @@
 import "./App.css";
 import BlendeCursor from "./components/BlendeCursor";
 import Navigation from "./components/Navigation";
-import Footer from "./components/Footer";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Home";
 import AboutMePage from "./pages/AboutMe";
 import MessageBoardPage from "./pages/MessageBoard";

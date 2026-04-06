@@ -4,10 +4,8 @@ import Hobby from "../components/Hobby";
 import { useUser } from "../UserContext";
 import { Timeline } from "antd";
 import { FaBook, FaBriefcase, FaLightbulb } from "react-icons/fa";
-import { AiOutlineMeh } from "react-icons/ai";
 
 const AboutMePage = () => {
-  const [isLighted, setIsLighted] = useState(false);
   const [addHoverBallToWorld, setAddBasketBallToWorld] = useState(null);
   const [activateRacket, setActivateRacket] = useState(null);
   const [activatePingPang, setActivatePingPang] = useState(null);
@@ -228,10 +226,6 @@ const AboutMePage = () => {
       ),
     },
   ];
-
-  const handleLightUp = () => {
-    setIsLighted(true);
-  };
 
   const handleBasketballActivation = () => {
     if (addHoverBallToWorld) {
