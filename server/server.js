@@ -1,24 +1,30 @@
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 
 const api = require("./api.js");
 
-const mongoConnectionURL =
-  "mongodb+srv://huxiaoheng:hxh19981225@xiaoheng.nymd030.mongodb.net/?retryWrites=true&w=majority";
-//const mongoConnectionURL = "mongodb://localhost:27017";
+const mongoConnectionURL = process.env.MONGODB_URL;
+const databaseName = process.env.MONGODB_DATABASE || "xiaoheng-web";
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(",")
+  : ["http://localhost:3000"];
 
-const databaseName = "xiaoheng-web";
+mongoose.set("bufferCommands", false);
+
 const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
   dbName: databaseName,
 };
 
-mongoose
-  .connect(mongoConnectionURL, options)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.log(`Error connecting to MongoDB: ${err}`));
+if (mongoConnectionURL) {
+  mongoose
+    .connect(mongoConnectionURL, options)
+    .then(() => console.log("Connected to MongoDB"))
+    .catch((err) => console.log(`Error connecting to MongoDB: ${err}`));
+} else {
+  console.log("MONGODB_URL is not set, running without MongoDB.");
+}
 
 // Create a express server
 const app = express();
@@ -26,12 +32,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: [
-      "http://34.17.31.245",
-      "http://localhost:3000",
-      "https://huxiaoheng.com",
-      "http://huxiaoheng.com",
-    ],
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -55,6 +56,7 @@ app.use((err, req, res, next) => {
 });
 
 // start the server
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

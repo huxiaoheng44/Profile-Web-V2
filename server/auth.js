@@ -1,89 +1,66 @@
-//auth.js
+require("dotenv").config();
 const { OAuth2Client } = require("google-auth-library");
 const User = require("./models/user");
+const mongoose = require("mongoose");
 
-// Create a new OAuth2Client to verify google sign-in
-const GOOGLE_CLIENT_ID =
-  "428394025772-7dku9vrms7l56cpcf28l9a2ara40098r.apps.googleusercontent.com";
-const client = new OAuth2Client(GOOGLE_CLIENT_ID);
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const client = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
 
-// Verify the token and return the user's information
-function verifyToken(tokenId) {
-  return new Promise((resolve, reject) => {
-    client
-      .verifyIdToken({
-        idToken: tokenId,
-        audience: GOOGLE_CLIENT_ID,
-      })
-      .then((ticket) => {
-        //console.log("ticket:", ticket);
-        console.log("payload:", ticket.getPayload());
-        const payload = ticket.getPayload();
-        resolve(payload);
-      })
-      .catch((error) => {
-        reject(error);
-      });
+async function verifyToken(tokenId) {
+  const ticket = await client.verifyIdToken({
+    idToken: tokenId,
+    audience: GOOGLE_CLIENT_ID,
   });
+  return ticket.getPayload();
 }
 
-function login(req, res) {
-  const tokenId = req.body.tokenId;
+async function login(req, res) {
+  try {
+    const { tokenId } = req.body;
 
-  verifyToken(tokenId)
-    .then((payload) => {
-      // check if user exist
-      User.findOne({ googleid: payload["sub"] }).then((user) => {
-        if (user) {
-          // check if user info is changed
-          let shouldUpdate = false;
+    if (!GOOGLE_CLIENT_ID || !client) {
+      return res.status(503).json({ message: "Google login is not configured" });
+    }
 
-          if (user.name !== payload["name"]) {
-            user.name = payload["name"];
-            shouldUpdate = true;
-          }
+    if (mongoose.connection.readyState !== 1) {
+      return res.status(503).json({ message: "Database is not connected" });
+    }
 
-          if (user.email !== payload["email"]) {
-            user.email = payload["email"];
-            shouldUpdate = true;
-          }
+    if (!tokenId) {
+      return res.status(400).json({ message: "tokenId is required" });
+    }
 
-          if (user.locale !== payload["locale"]) {
-            user.locale = payload["locale"];
-            shouldUpdate = true;
-          }
+    const payload = await verifyToken(tokenId);
+    const { sub, name, email, locale, picture } = payload;
 
-          if (user.picture !== payload["picture"]) {
-            user.picture = payload["picture"];
-            shouldUpdate = true;
-          }
+    let user = await User.findOne({ googleid: sub });
 
-          if (shouldUpdate) {
-            user.save().then((updatedUser) => {
-              res.json(updatedUser);
-            });
-          } else {
-            res.json(user);
-          }
-        } else {
-          // create a new user if not exist
-          const newUser = new User({
-            name: payload["name"],
-            googleid: payload["sub"],
-            email: payload["email"],
-            locale: payload["locale"],
-            picture: payload["picture"],
-          });
+    if (user) {
+      const updates = {};
+      if (user.name !== name) updates.name = name;
+      if (user.email !== email) updates.email = email;
+      if (user.locale !== locale) updates.locale = locale;
+      if (user.picture !== picture) updates.picture = picture;
 
-          newUser.save().then((user) => {
-            res.json(user);
-          });
-        }
+      if (Object.keys(updates).length > 0) {
+        Object.assign(user, updates);
+        user = await user.save();
+      }
+    } else {
+      user = await User.create({
+        name,
+        googleid: sub,
+        email,
+        locale,
+        picture,
       });
-    })
-    .catch((error) => {
-      res.status(401).json(error);
-    });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(401).json({ message: "Authentication failed" });
+  }
 }
 
 module.exports = {
