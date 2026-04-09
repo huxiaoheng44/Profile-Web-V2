@@ -8,10 +8,12 @@ import MessageBoardPage from "./pages/MessageBoard";
 import { UserProvider } from "./UserContext";
 import ProjectPage from "./pages/ProjectPage";
 import NotFoundPage from "./pages/NotFound";
+import AnalyticsProvider from "./components/AnalyticsProvider";
 
 function App() {
   return (
     <UserProvider>
+      <AnalyticsProvider />
       <div className="App bg-black w-full flex flex-col box-border min-h-screen">
         <div className="flex-grow box-border bg-black">
           <Navigation />

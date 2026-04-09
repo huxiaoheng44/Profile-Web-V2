@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import PDFReader from "../components/PdfReader";
 import { useSearchParams } from "react-router-dom";
 import { Tabs } from "antd";
+import { trackEvent } from "../utils/analytics";
 
 const { TabPane } = Tabs;
 
@@ -9,62 +10,100 @@ const ProjectPage = () => {
   const pdfBaseURL = `${process.env.PUBLIC_URL}/resources/pdf/`;
   const videoBaseURL = `${process.env.PUBLIC_URL}/resources/videos/`;
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const defaultActiveKey = searchParams.get("tab") || "1";
+  const [activeKey, setActiveKey] = useState(defaultActiveKey);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const projects = [
-    {
-      title: "3D Reconstruction",
-      description: "This tab displays the 3D Reconstruction project.",
-      pdf: `${pdfBaseURL}3DReconstruction.pdf`,
-      video: `${videoBaseURL}3D.mp4`,
-    },
-    {
-      title: "Drone Simulator",
-      description: "This tab shows the Drone Simulator project.",
-      pdf: `${pdfBaseURL}Drone.pdf`,
-      video: `${videoBaseURL}DroneDemo.mp4`,
-    },
-    {
-      title: "FAST AI Movie",
-      description: "This tab is for FAST AI Movie project.",
-      pdf: `${pdfBaseURL}FASTAIMOVIE.pdf`,
-      video: `${videoBaseURL}FASTAIMOVIE.mp4`,
-    },
-    {
-      title: "Vehicle identification",
-      description: "This tab showcases the Muller BBM project.",
-      pdf: `${pdfBaseURL}VehicleIdentification.pdf`,
-    },
-    {
-      title: "Innocoso Management System",
-      description: "This tab displays the Innocoso Management System.",
-      video: `${videoBaseURL}innocoso.mp4`,
-    },
-    {
-      title: "TUM DI-Lab & Reply",
-      description: "This tab displays the TUM DI-Lab & Reply project.",
-      video: `${videoBaseURL}dilab.mp4`,
-    },
-  ];
+  const projects = useMemo(
+    () => [
+      {
+        title: "3D Reconstruction",
+        description: "This tab displays the 3D Reconstruction project.",
+        pdf: `${pdfBaseURL}3DReconstruction.pdf`,
+        video: `${videoBaseURL}3D.mp4`,
+      },
+      {
+        title: "Drone Simulator",
+        description: "This tab shows the Drone Simulator project.",
+        pdf: `${pdfBaseURL}Drone.pdf`,
+        video: `${videoBaseURL}DroneDemo.mp4`,
+      },
+      {
+        title: "FAST AI Movie",
+        description: "This tab is for FAST AI Movie project.",
+        pdf: `${pdfBaseURL}FASTAIMOVIE.pdf`,
+        video: `${videoBaseURL}FASTAIMOVIE.mp4`,
+      },
+      {
+        title: "Vehicle identification",
+        description: "This tab showcases the Muller BBM project.",
+        pdf: `${pdfBaseURL}VehicleIdentification.pdf`,
+      },
+      {
+        title: "Innocoso Management System",
+        description: "This tab displays the Innocoso Management System.",
+        video: `${videoBaseURL}innocoso.mp4`,
+      },
+      {
+        title: "TUM DI-Lab & Reply",
+        description: "This tab displays the TUM DI-Lab & Reply project.",
+        video: `${videoBaseURL}dilab.mp4`,
+      },
+    ],
+    [pdfBaseURL, videoBaseURL]
+  );
+
+  useEffect(() => {
+    const tabFromQuery = searchParams.get("tab") || "1";
+    setActiveKey(tabFromQuery);
+  }, [searchParams]);
+
+  useEffect(() => {
+    const selectedProject = projects[Number(activeKey) - 1];
+    if (!selectedProject) {
+      return;
+    }
+
+    trackEvent("project_subtab_view", {
+      tab_name: "projects",
+      tab_level: "secondary",
+      project_name: selectedProject.title,
+      project_index: Number(activeKey),
+    });
+  }, [activeKey, projects]);
+
+  const handleProjectTabChange = (key) => {
+    const selectedProject = projects[Number(key) - 1];
+
+    setActiveKey(key);
+    setSearchParams({ tab: key });
+
+    if (!selectedProject) {
+      return;
+    }
+
+    trackEvent("project_subtab_click", {
+      tab_name: "projects",
+      tab_level: "secondary",
+      project_name: selectedProject.title,
+      project_index: Number(key),
+    });
+  };
 
   return (
     <div className="w-full h-min-[100vh] bg-black text-white relative">
       <Tabs
-        defaultActiveKey="1"
+        activeKey={activeKey}
+        onChange={handleProjectTabChange}
         centered
         className="test-white bg-inherit pb-10 "
       >
         {projects.map((project, index) => (
-          <TabPane
-            tab={project.title}
-            key={index + 1}
-            defaultActiveKey={defaultActiveKey}
-          >
+          <TabPane tab={project.title} key={index + 1}>
             <div className="flex flex-col bg-inherit items-center">
               {/* <p className="text-xl mb-4">{project.description}</p> */}
               <PDFReader pdfUrl={project.pdf} />
