@@ -2,6 +2,17 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## PostHog Analytics Setup
+
+Create a `.env` file in `react-front/` and add:
+
+```bash
+REACT_APP_POSTHOG_KEY=phc_xxx_your_project_key
+REACT_APP_POSTHOG_HOST=https://us.i.posthog.com
+```
+
+If `REACT_APP_POSTHOG_KEY` is missing, analytics tracking is automatically disabled.
+
 ## Available Scripts
 
 In the project directory, you can run:
