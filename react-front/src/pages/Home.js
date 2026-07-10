@@ -55,6 +55,10 @@ const HomePage = () => {
       filename: "dilab.png",
       title: "TUM DI-Lab Multi-Agent System",
     },
+    {
+      filename: "pingpong.png",
+      title: "PING PONG VISION",
+    },
   ];
 
   const IntroductionText =

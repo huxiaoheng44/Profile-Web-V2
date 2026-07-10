@@ -53,6 +53,11 @@ const ProjectPage = () => {
         description: "This tab displays the TUM DI-Lab & Reply project.",
         video: `${videoBaseURL}dilab.mp4`,
       },
+      {
+        title: "PING PONG VISION",
+        description: "This tab displays the PING PONG VISION project.",
+        video: `${videoBaseURL}pingpong.mp4`,
+      },
     ],
     [pdfBaseURL, videoBaseURL]
   );
