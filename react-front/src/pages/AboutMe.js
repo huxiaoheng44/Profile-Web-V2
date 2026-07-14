@@ -2,8 +2,331 @@ import React, { useState } from "react";
 import LightUp from "../components/LightUp";
 import Hobby from "../components/Hobby";
 import { useUser } from "../UserContext";
-import { Timeline } from "antd";
-import { FaBook, FaBriefcase, FaLightbulb } from "react-icons/fa";
+
+const monthMap = {
+  Jan: 0,
+  Feb: 1,
+  Mar: 2,
+  Apr: 3,
+  May: 4,
+  Jun: 5,
+  Jul: 6,
+  Aug: 7,
+  Sep: 8,
+  Oct: 9,
+  Nov: 10,
+  Dec: 11,
+};
+
+const projectTimelineStart = 2023 * 12;
+const projectTimelineEnd = 2026 * 12 + 11;
+const projectTimelineToday = 2026 * 12 + 6;
+const projectTimelineYears = [2023, 2024, 2025, 2026];
+
+const parseMonthYear = (value) => {
+  const [month, year] = value.trim().split(" ");
+  return Number(year) * 12 + monthMap[month];
+};
+
+const getProjectTimelineRange = (dateRange) => {
+  const [startText, endText] = dateRange.split(" - ");
+  const start = parseMonthYear(startText);
+  const end = parseMonthYear(endText);
+  const total = projectTimelineEnd - projectTimelineStart;
+
+  return {
+    left: `${((start - projectTimelineStart) / total) * 100}%`,
+    width: `${Math.max(((end - start + 1) / total) * 100, 1.3)}%`,
+  };
+};
+
+const getProjectYearPosition = (year) =>
+  `${(((year * 12 - projectTimelineStart) / (projectTimelineEnd - projectTimelineStart)) * 100).toFixed(2)}%`;
+
+const getProjectTodayPosition = () =>
+  `${(((projectTimelineToday - projectTimelineStart) / (projectTimelineEnd - projectTimelineStart)) * 100).toFixed(2)}%`;
+
+const careerTimelineData = [
+  {
+    date: "Apr 2026 - Jul 2026",
+    title: "System Engineer, PingPong Vision",
+    org: "Digital Product School / UnternehmerTUM & MULTIVAC",
+    summary:
+      "Built and deployed an AI vision monitoring platform for industrial HMI screens, turning factory research and real machine testing into a camera-based monitoring workflow.",
+    highlights: [
+      "Translated insights from 15+ factory visits and manufacturing interviews into the product concept.",
+      "Built a Gemini-based zero-shot vision-OCR pipeline with OpenCV perspective correction and LLM guardrails.",
+      "Delivered a React, FastAPI, Flask, TimescaleDB, Docker, and Coolify monitoring workflow.",
+    ],
+  },
+  {
+    date: "Dec 2024 - Mar 2026",
+    title: "Platform Engineer (Working Student)",
+    org: "Infineon Technologies",
+    summary:
+      "Worked on a Backstage-based internal developer platform and cloud-native platform operations.",
+    highlights: [
+      "Designed golden path templates for service scaffolding, CI/CD practices, and Helm deployment patterns.",
+      "Supported OpenShift lifecycle operations, GitOps-oriented workflows, and software catalog onboarding.",
+      "Improved developer productivity through platform integrations and reusable onboarding workflows.",
+    ],
+  },
+  {
+    date: "Jul 2024 - Dec 2024",
+    title: "Fullstack Developer (Working Student)",
+    org: "Innocoso",
+    summary:
+      "Built backend and frontend modules for a B2B ERP platform handling production orders, workflows, RBAC, and dashboards.",
+    highlights: [
+      "Designed REST APIs, relational data models, validation logic, and business rules.",
+      "Implemented authentication, role-based access control, and permission-aware workflows.",
+      "Contributed to Docker, Nginx, AWS EC2/GCP, and CI/CD deployment workflows.",
+    ],
+  },
+  {
+    date: "Sep 2021 - Jul 2022",
+    title: "Software Engineer (Compiler / LLVM / CI)",
+    org: "Huawei",
+    summary:
+      "Scientific computation workloads, Linux compatibility, compiler build environments, and CI pipelines.",
+    highlights: [
+      "Contributed to Fortran-based scientific and meteorological computation workload optimization.",
+      "Resolved Linux build, dependency, installation, and compatibility issues.",
+      "Maintained Jenkins and GitLab CI pipelines for compiler build, test, and release workflows.",
+    ],
+  },
+];
+
+const educationTimelineData = [
+  {
+    date: "Oct 2022 - Mar 2026",
+    title: "M.Sc. Informatics",
+    org: "Technical University of Munich",
+    summary:
+      "Relevant courses include Cloud Information Systems, Advanced Computer Networking, Natural Language Processing, Multiple View Geometry, Distributed Systems, and Computer Vision II.",
+  },
+  {
+    date: "Sep 2017 - Jul 2021",
+    title: "B.Sc. Software Engineering",
+    org: "Wuhan University of Technology",
+    summary:
+      "Relevant courses include Data Structures & Algorithms, Operating Systems, Computer Architecture, Database Systems, Network Principles, and Software Engineering.",
+  },
+];
+
+const projectTableData = [
+  {
+    date: "Apr 2026 - Jul 2026",
+    title: "PingPong Vision",
+    role: "System Engineer",
+    org: "Digital Product School / UnternehmerTUM & MULTIVAC",
+    stack:
+      "React, Vite, Tailwind CSS, ECharts, FastAPI, Flask, TimescaleDB, Gemini, OpenCV, Docker",
+    outcome:
+      "Built and validated an AI vision monitoring platform for industrial HMI screens on real MULTIVAC machines.",
+  },
+  {
+    date: "Mar 2025 - Oct 2025",
+    title: "Structured IR for LLM Code Generation",
+    role: "Research Engineer",
+    org: "Master Thesis, Technical University of Munich",
+    stack: "LLM evaluation, prompt engineering, YAML, Mermaid, DSL, Python",
+    outcome:
+      "Improved LLM code-generation performance by 12-14% on complex tasks.",
+  },
+  {
+    date: "Mar 2026 - Apr 2026",
+    title: "Web Harvest RAG",
+    role: "AI / Backend Engineer",
+    org: "Personal Project",
+    stack: "Python, RAG, embeddings, hybrid retrieval, BM25, REST APIs",
+    outcome:
+      "Built a source-grounded knowledge service for websites and documents.",
+  },
+  {
+    date: "Sep 2024 - Feb 2025",
+    title: "Multi-Agent System for Automated Software Development",
+    role: "AI Fullstack Developer",
+    org: "TUM-DI-LAB & Reply",
+    stack: "LangGraph, LangChain, GraphQL, AWS Bedrock, Lambda, Terraform",
+    outcome:
+      "Created agentic workflows for planning, tickets, orchestration, and deployment.",
+  },
+  {
+    date: "May 2024 - Oct 2024",
+    title: "Personal Website Development - huxiaoheng.com",
+    role: "Fullstack Developer",
+    org: "Personal Project",
+    stack: "React, Express.js, MongoDB, Docker, Nginx, GCP",
+    outcome:
+      "Built and deployed a full-stack portfolio for projects, blogs, and demos.",
+  },
+  {
+    date: "Oct 2023 - Feb 2024",
+    title: "Python Artifact Logger & Viewer",
+    role: "Backend / DataOps Engineer",
+    org: "Personal Project",
+    stack: "Python, Flask, AWS S3, databases, artifact tracking, Dynatrace",
+    outcome:
+      "Built experiment artifact tracking and comparison dashboards.",
+  },
+  {
+    date: "Feb 2023 - Aug 2023",
+    title: "Drone Simulator Project",
+    role: "Systems Developer",
+    org: "Academic Project",
+    stack: "C++, PX4, seL4, Raspberry Pi, sensor data, embedded systems",
+    outcome:
+      "Built drone control/simulation components and C++ sensor-data proxying.",
+  },
+];
+
+const VerticalTimeline = ({ title, items }) => (
+  <div className="works-section-panel">
+    <div className="works-panel-title">{title}</div>
+    <div className="profile-timeline">
+      {items.map((item) => (
+        <article className="profile-timeline-item" key={`${item.title}-${item.date}`}>
+          <div className="profile-timeline-date">{item.date}</div>
+          <div className="profile-timeline-card">
+            <div className="profile-timeline-heading">
+              <h3>{item.title}</h3>
+              <span>{item.org}</span>
+            </div>
+            <p>{item.summary}</p>
+            {item.highlights && (
+              <ul>
+                {item.highlights.map((highlight) => (
+                  <li key={highlight}>{highlight}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+);
+
+const ProjectsTable = () => (
+  <div className="works-section-panel">
+    <div className="works-panel-title">PROJECT EXPERIENCE</div>
+    <div className="projects-table-wrap">
+      <table className="projects-table">
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Time</th>
+            <th>Role</th>
+            <th>Stack</th>
+            <th>Outcome</th>
+          </tr>
+        </thead>
+        <tbody>
+          {projectTableData.map((project) => (
+            <tr key={`${project.title}-${project.date}`}>
+              <td>
+                <strong>{project.title}</strong>
+                <span>{project.org}</span>
+              </td>
+              <td>{project.date}</td>
+              <td>{project.role}</td>
+              <td>{project.stack}</td>
+              <td>{project.outcome}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
+
+const ProjectsTimeline = () => (
+  <div className="works-section-panel">
+    <div className="works-panel-title">PROJECT TIMELINE (FROM 2023)</div>
+    <div className="project-gantt-scroll">
+      <div className="project-gantt">
+        <div className="project-gantt-header">
+          <div className="project-gantt-label">PROJECTS</div>
+          <div className="project-gantt-axis">
+            {projectTimelineYears.map((year) => (
+              <span
+                key={year}
+                className="project-gantt-year"
+                style={{ left: getProjectYearPosition(year) }}
+              >
+                {year}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="project-gantt-body">
+          <div className="project-gantt-overlay">
+            {projectTimelineYears.map((year) => (
+              <div
+                key={year}
+                className="project-gantt-year-line"
+                style={{ left: getProjectYearPosition(year) }}
+              ></div>
+            ))}
+            <div
+              className="project-gantt-today"
+              style={{ left: getProjectTodayPosition() }}
+            >
+              <span>Today</span>
+            </div>
+          </div>
+
+          {projectTableData.map((project) => {
+            const range = getProjectTimelineRange(project.date);
+
+            return (
+              <div className="project-gantt-row" key={`${project.title}-timeline`}>
+                <div className="project-gantt-name">{project.title}</div>
+                <div className="project-gantt-track">
+                  <div
+                    className="project-gantt-bar"
+                    style={range}
+                    title={`${project.title} - ${project.date}`}
+                  ></div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const ProfileWorks = () => (
+  <section className="works-shell lighted">
+    <div className="works-window-bar">
+      <span>Profile Timeline</span>
+      <div className="works-window-controls" aria-hidden="true">
+        <span className="works-window-dot"></span>
+        <span>−</span>
+        <span>□</span>
+        <span>×</span>
+      </div>
+    </div>
+
+    <div className="works-content">
+      <h2>Profile Timeline</h2>
+      <p className="works-intro">
+        Career, education, and project experience rebuilt from the latest
+        source-of-truth profile data.
+      </p>
+      <div className="works-two-column">
+        <VerticalTimeline title="CAREER EXPERIENCE" items={careerTimelineData} />
+        <VerticalTimeline title="EDUCATION" items={educationTimelineData} />
+      </div>
+      <ProjectsTable />
+      <ProjectsTimeline />
+    </div>
+  </section>
+);
 
 const AboutMePage = () => {
   const [addHoverBallToWorld, setAddBasketBallToWorld] = useState(null);
@@ -21,210 +344,6 @@ const AboutMePage = () => {
     "CI/CD",
     "Docker",
     "Kubernetes",
-  ];
-
-  const timelineData = [
-    {
-      title: "Infineon Technologies AG",
-      description: {
-        position: "Platform Engineer(Working Student)",
-        details: [
-          "Develop and maintain the internal developer portal to streamline engineering workflows.",
-          "Assisted in enhancing and maintaining project CI/CD pipelines.",
-          "Supported the migration of repository workflows, standardized internal development practices.",
-        ],
-      },
-      time: "December 2024 - June 2025",
-      icon: (
-        <FaBriefcase
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "Innocoso Order Management System",
-      description: {
-        position: "Full-stack Developer(Working Student)",
-        details: [
-          "Developed and deployed a full-featured order management platform with functionalities including advance search, filtering, and PDF export.",
-          "Implemented dynamic data visualization dashboards using Ant Design's specialized visualization library, enabling multi-dimensional analysis and comparison of order information.",
-          "Designed intuitive user interfaces for monitoring key order metrics, supporting business decision-making through clear visual summaries.",
-        ],
-      },
-      time: "July 2024 - December 2024",
-      icon: (
-        <FaBriefcase
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "Müller-BBM Vehicle Identification Task Based on Vehicle Noise",
-      description: {
-        position: "Vehicle Identification Task",
-        details: [
-          "Develop a classification method for passenger cars and heavy vehicles based on features extracted from audio recordings and additional sensor data.",
-          "Developed solutions based on traditional machine learning and neural networks-based algorithms, achieving a maximum accuracy of 87%.",
-        ],
-      },
-      time: "January 2024 - January 2024",
-      icon: (
-        <FaLightbulb
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "FAST AI Movies - Front-end Development Intern",
-      description: {
-        position: "Front-end Development Intern",
-        details: [
-          "Developed a content editing page for texts, audio and images.",
-          "Enabled customization of the focus area on slides.",
-          "Implemented image upload and inserting images into text box functionalities.",
-        ],
-      },
-      time: "September 2023 - March 2024",
-      icon: (
-        <FaBriefcase
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "Python Artifact Logger&Viewer Module",
-      description: {
-        position: "Python Artifact Logger&Viewer Module",
-        details: [
-          "Developed a Flask-based backend server, enabling dynamic data presentation from and supporting data querying and visualization for artifact comparison.",
-        ],
-      },
-      time: "October 2023 - February 2024",
-      icon: (
-        <FaLightbulb
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "Personal Website Development (huxiaoheng.com)",
-      description: {
-        position: "Personal Website Development",
-        details: [
-          "Developed a platform for open dialogue, complete with a message card and comment features.",
-          "Tech Stack: React (Front-end), Express.js (Back-end), MongoDB (Database), Docker (Deployment), Nginx (Reverse Proxy), Google Cloud (Server Hosting)",
-        ],
-      },
-      time: "August 2023 - present",
-      icon: (
-        <FaLightbulb
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "Drone Simulator Project",
-      description: {
-        position: "Drone Simulator Project",
-        details: [
-          "Constructed a comprehensive drone control system integrated with PX4 autopilot with a companion application based on seL4 microkernel OS.",
-          "Developed a C++ proxy for sensor data transmission to the companion computer and converted raw sensor data into structured data types for precise control and monitoring.",
-        ],
-      },
-      time: "February 2023 - August 2023",
-      icon: (
-        <FaLightbulb
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "Technical University of Munich",
-      description: {
-        position: "Informatics Master",
-        details: [
-          "Relevant Courses: Computer Vision II: Multiple View Geometry, 3D Scanning & Motion Capture, Cloud Information Systems, Natural Language Processing, Advanced Computer Networking",
-        ],
-      },
-      time: "October 2022 - present",
-      icon: (
-        <FaBook
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "Huawei - Software Engineer",
-      description: {
-        position: "Software Engineer",
-        details: [
-          "Developed advanced-specific optimization strategies for the optimization level in the compiler.",
-          "Monitored CI/CD pipelines and developed scripts to automate and enhance workflow efficiency.",
-        ],
-      },
-      time: "September 2021 - July 2022",
-      icon: (
-        <FaBriefcase
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
-    {
-      title: "Wuhan University of Technology",
-      description: {
-        position: "Software Engineering Bachelor ",
-        details: [
-          "Grade: 4.103 / 5.0",
-          "Relevant Courses: Data Structures and Algorithms, Computer Architecture, Operating Systems, Database Systems, Network Principles, Software Engineering, Discrete Mathematics",
-        ],
-      },
-      time: "September 2017 - July 2021",
-      icon: (
-        <FaBook
-          style={{
-            color: "white",
-            backgroundColor: "transparent",
-            fontSize: "1.5rem",
-          }}
-        />
-      ),
-    },
   ];
 
   const handleBasketballActivation = () => {
@@ -289,38 +408,10 @@ const AboutMePage = () => {
           </div>
         </div>
       </div>
-      <div className="lighted-bg2 h-screen section flex flex-col justify-start items-center bg-black z-30">
-        <div className="w-full text-5xl text-center font-bold pb-20">
-          MY EXPERIENCE
-        </div>
-        <div className="ml-[-40vw]">
-          <Timeline mode="left">
-            {timelineData.map((item, index) => (
-              <Timeline.Item
-                key={index}
-                label={item.time}
-                dot={item.icon}
-                className="text-white font-bold flex gap-6"
-              >
-                <div className="text-white font-bold text-2xl mt-[-5px]">
-                  {item.title}
-                </div>
-                <p className="text-white font-bold">
-                  {item.description.position}
-                </p>
-                <ul className="text-white font-semibold list-disc pl-5">
-                  {item.description.details.map((detail, index) => (
-                    <li key={index} className="whitespace-normal">
-                      {detail}
-                    </li>
-                  ))}
-                </ul>
-              </Timeline.Item>
-            ))}
-          </Timeline>
-        </div>
+      <div className="lighted-bg2 section flex flex-col justify-start items-center bg-black z-30 py-24 px-6">
+        <ProfileWorks />
       </div>
-      <div className="w-full h-96 my-20"></div>
+      <div className="w-full h-32 my-16"></div>
       <div className="lighted-bg2 min-h-screen section flex flex-col justify-start items-center bg-black z-10 relative overflow-hidden pb-48">
         <div className="w-full text-5xl text-center font-bold mb-20 pt-20">
           MY HOBBIES
