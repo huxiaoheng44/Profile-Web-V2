@@ -126,6 +126,8 @@ const ProjectPage = () => {
         {projects.map((project, index) => (
           <TabPane tab={project.title} key={index + 1}>
             <div className="flex flex-col bg-inherit items-center">
+              {/* <p className="text-xl mb-4">{project.description}</p> */}
+              <PDFReader pdfUrl={project.pdf} />
               {project.link && (
                 <a
                   href={project.link}
@@ -139,14 +141,12 @@ const ProjectPage = () => {
                       link: project.link,
                     })
                   }
-                  className="flex items-center gap-2 bg-white text-black font-semibold rounded-full px-6 py-2 mb-6 hover:bg-zinc-200 transition-colors duration-200"
+                  className="flex items-center gap-2 bg-white text-black font-semibold rounded-full px-6 py-2 mt-6 hover:bg-zinc-200 transition-colors duration-200"
                 >
                   Visit Live Site
                   <FaExternalLinkAlt className="text-sm" />
                 </a>
               )}
-              {/* <p className="text-xl mb-4">{project.description}</p> */}
-              <PDFReader pdfUrl={project.pdf} />
             </div>
             <div>
               {project.video && (
