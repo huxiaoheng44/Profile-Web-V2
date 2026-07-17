@@ -57,6 +57,7 @@ const ProjectPage = () => {
       {
         title: "PING PONG VISION",
         description: "This tab displays the PING PONG VISION project.",
+        pdf: `${pdfBaseURL}pingpong.pdf`,
         video: `${videoBaseURL}pingpong.mp4`,
       },
       {
