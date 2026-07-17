@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import PDFReader from "../components/PdfReader";
 import { useSearchParams } from "react-router-dom";
 import { Tabs } from "antd";
+import { FaExternalLinkAlt } from "react-icons/fa";
 import { trackEvent } from "../utils/analytics";
 
 const { TabPane } = Tabs;
@@ -63,6 +64,7 @@ const ProjectPage = () => {
         description:
           "A config-driven RAG chatbot starter (scrape -> chunk -> embed -> hybrid retrieval -> chat), with a standalone retrieval_lab experimentation harness benchmarked against a public IR baseline (BEIR/NFCorpus), and deployed to production at webrag.huxiaoheng.com.",
         pdf: `${pdfBaseURL}WebHarvestRAG.pdf`,
+        link: "https://webrag.huxiaoheng.com",
       },
     ],
     [pdfBaseURL, videoBaseURL]
@@ -116,6 +118,25 @@ const ProjectPage = () => {
         {projects.map((project, index) => (
           <TabPane tab={project.title} key={index + 1}>
             <div className="flex flex-col bg-inherit items-center">
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() =>
+                    trackEvent("project_visit_site_click", {
+                      tab_name: "projects",
+                      project_name: project.title,
+                      project_index: index + 1,
+                      link: project.link,
+                    })
+                  }
+                  className="flex items-center gap-2 bg-white text-black font-semibold rounded-full px-6 py-2 mb-6 hover:bg-zinc-200 transition-colors duration-200"
+                >
+                  Visit Live Site
+                  <FaExternalLinkAlt className="text-sm" />
+                </a>
+              )}
               {/* <p className="text-xl mb-4">{project.description}</p> */}
               <PDFReader pdfUrl={project.pdf} />
             </div>
