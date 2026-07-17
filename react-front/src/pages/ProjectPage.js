@@ -67,6 +67,13 @@ const ProjectPage = () => {
         pdf: `${pdfBaseURL}WebHarvestRAG.pdf`,
         link: "https://webrag.huxiaoheng.com",
       },
+      {
+        title: "You Don't Need RAG",
+        description:
+          "A scrape-to-plain-text tool that argues against RAG-by-default: pull any site or PDF into a single plain-text file that fits a modern context window, with a RAG ZIP export as a fallback for when a knowledge base is genuinely too large for that.",
+        pdf: `${pdfBaseURL}YouDontNeedRAG.pdf`,
+        link: "https://rag.huxiaoheng.com",
+      },
     ],
     [pdfBaseURL, videoBaseURL]
   );

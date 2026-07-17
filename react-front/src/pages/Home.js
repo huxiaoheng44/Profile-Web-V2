@@ -63,6 +63,10 @@ const HomePage = () => {
       filename: "webharvestrag.png",
       title: "Web Harvest RAG",
     },
+    {
+      filename: "youdontneedrag.png",
+      title: "You Don't Need RAG",
+    },
   ];
 
   const IntroductionText =
