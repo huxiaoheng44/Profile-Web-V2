@@ -58,6 +58,12 @@ const ProjectPage = () => {
         description: "This tab displays the PING PONG VISION project.",
         video: `${videoBaseURL}pingpong.mp4`,
       },
+      {
+        title: "Web Harvest RAG",
+        description:
+          "A config-driven RAG chatbot starter (scrape -> chunk -> embed -> hybrid retrieval -> chat), with a standalone retrieval_lab experimentation harness benchmarked against a public IR baseline (BEIR/NFCorpus), and deployed to production at webrag.huxiaoheng.com.",
+        pdf: `${pdfBaseURL}WebHarvestRAG.pdf`,
+      },
     ],
     [pdfBaseURL, videoBaseURL]
   );

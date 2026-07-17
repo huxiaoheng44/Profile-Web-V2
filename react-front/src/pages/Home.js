@@ -59,6 +59,10 @@ const HomePage = () => {
       filename: "pingpong.png",
       title: "PING PONG VISION",
     },
+    {
+      filename: "webharvestrag.png",
+      title: "Web Harvest RAG",
+    },
   ];
 
   const IntroductionText =
